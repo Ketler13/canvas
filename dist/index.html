@@ -7,9 +7,21 @@
 </head>
 <body>
   <div class="controls">
-    <button type="button" id="clear">clear canvas</button>
+    <button type="button" class="button button-rect clear  control-item">CLEAR</button>
+    <button type="button" class="button button-circle back control-item">BACK</button>
+    <button type="button" class="button button-circle forward control-item">FORWARD</button>
+    <label for="range">Thickness</label>
+    <input type="range" class="range control-item" name="range" value="10" min="5" max="15" step="1">
+    <label for="colors">Select a color</label>
+    <select class="colors control-item" name="colors">
+      <option value="black">black</option>
+      <option value="green">green</option>
+    </select>
   </div>
-  <canvas id="canvas"></canvas>
+  <div class="wrapper">
+    <canvas id="canvas"></canvas>
+  </div>
+  <div class="pointer"></div>
   <script src="bundle.js"></script>
 </body>
 </html>

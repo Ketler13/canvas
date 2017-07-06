@@ -53,8 +53,19 @@ ul, li {
 	list-style-type: none;
 }
 
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 .controls {
-  position: absolute;;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: flex-start;;
+	align-items: center;
+	background-color: #3F51B5;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -62,8 +73,31 @@ ul, li {
   z-index: 2;
 }
 
-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
+.controls .control-item {
+	margin: 0 10px;
+}
+
+.button {
+	height: 32px;
+	padding: 0 10px;
+	border: none;
+	background-color: transparent;
+	color: #E8EAF6;
+	font-size: 14px;
+	transition: background-color .3s;
+}
+
+.button:hover {
+	background-color: #283593;
+}
+
+.pointer {
+	position: absolute;
+	background-color: red;
+	width: 20px;
+	height: 20px;
+	top: 100px;
+	left: 100px;
+	border-radius: 50%;
+	transform: translate(-50%, -50%);
 }
