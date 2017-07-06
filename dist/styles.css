@@ -53,7 +53,7 @@ ul, li {
 	list-style-type: none;
 }
 
-canvas {
+#canvas {
   position: absolute;
   top: 0;
   left: 0;

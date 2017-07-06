@@ -1,29 +1,8 @@
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
 
-
-export const pointerMove = elem => {
-  return Observable
-    .fromEvent(elem, 'mousemove')
-    .map(e => {
-      return {
-        x: e.clientX,
-        y: e.clientY
-      }
-    });
-}
-
-export const pointerLeave = elem => {
-  const onControlsEnter = Observable.fromEvent(elem, 'mouseenter');
-  const onBodyLeave = Observable.fromEvent(document.body, 'mouseleave');
-
-  return Observable.merge(
-    onControlsEnter,
-    onBodyLeave);
-}
 
 export const widthChange = range => Observable
                                       .fromEvent(range, 'change')
@@ -32,3 +11,33 @@ export const widthChange = range => Observable
 export const colorChange = colors => Observable
                                        .fromEvent(colors, 'change')
                                        .map(ev => ev.target.value);
+
+export const mouseDown = () => Observable
+  .fromEvent(document.body, 'mousedown')
+  .map(ev => {
+    return {
+      x: ev.clientX,
+      y: ev.clientY
+    }
+  })
+  .filter(point => point.y > 50)
+
+export const mouseMove = () => Observable
+  .fromEvent(document.body, 'mousemove')
+  .map(ev => {
+    return {
+      x: ev.clientX,
+      y: ev.clientY
+    }
+  })
+  .filter(point => point.y > 50)
+
+export const mouseUp = () => Observable
+  .fromEvent(document.body, 'mouseup')
+  .map(ev => {
+    return {
+      x: ev.clientX,
+      y: ev.clientY
+    }
+  })
+  .filter(point => point.y > 50)
