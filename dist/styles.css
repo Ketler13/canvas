@@ -77,6 +77,14 @@ canvas {
 	margin: 0 10px;
 }
 
+.colors.control-item {
+	width: 80px;
+}
+
+.colors.control-item option:checked {
+	background-color: white;
+}
+
 .button {
 	height: 32px;
 	padding: 0 10px;
