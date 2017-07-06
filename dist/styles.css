@@ -61,7 +61,7 @@ ul, li {
 
 .controls {
 	display: flex;
-	flex-flow: row nowrap;
+	flex-flow: row wrap;
 	justify-content: flex-start;;
 	align-items: center;
 	background-color: #3F51B5;

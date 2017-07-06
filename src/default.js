@@ -24,3 +24,9 @@ export const opts = {
   width: 15,
   color: 'rgb(244,67,54)',
 }
+
+export const defaultLine = {
+  color: null,
+  width: null,
+  points: []
+}

@@ -5,12 +5,12 @@ import 'rxjs/add/operator/filter';
 
 
 export const widthChange = range => Observable
-                                      .fromEvent(range, 'change')
-                                      .map(ev => ev.target.value);
+  .fromEvent(range, 'change')
+  .map(ev => ev.target.value);
 
 export const colorChange = colors => Observable
-                                       .fromEvent(colors, 'change')
-                                       .map(ev => ev.target.value);
+  .fromEvent(colors, 'change')
+  .map(ev => ev.target.value);
 
 export const mouseDown = () => Observable
   .fromEvent(document.body, 'mousedown')
@@ -41,3 +41,12 @@ export const mouseUp = () => Observable
     }
   })
   .filter(point => point.y > 50)
+
+export const clearCanvas = button => Observable.fromEvent(button, 'click');
+
+export const nameChange = input => Observable.fromEvent(input, 'input')
+  .map(ev => ev.target.value);
+
+export const savePic = button => Observable.fromEvent(button, 'click');
+
+export const findPic = button => Observable.fromEvent(button, 'click');
