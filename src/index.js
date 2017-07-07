@@ -12,15 +12,15 @@ import 'rxjs/add/observable/never';
 
 import {
   widthChange, colorChange, mouseDown, mouseMove, mouseUp, clearCanvas,
-  nameChange, savePic, findPic
+  nameChange, savePic, findPic, filterApply, filterChange
 } from './observableCreators';
 
 import {
   widthSub, colorSub, mdSub, mdDo, muSub, muDo, pausableSub, clearSub, nameSub,
-  saveSub, findSub
+  saveSub, findSub, filterApplySub, filterChangeSub
 } from './subscriptions';
 
-import { setOptionsToSelect } from './utils';
+import { setOptionsToSelect, setFilters } from './utils';
 
 const controls = document.querySelector('.controls');
 const range = document.querySelector('.range');
@@ -31,6 +31,8 @@ const clearButton = document.querySelector('.button.clear');
 const nameInput = document.querySelector('.name');
 const saveButton = document.querySelector('.button.save');
 const findButton = document.querySelector('.button.find');
+const filters = document.querySelector('.filters');
+const filterButton = document.querySelector('.button.filter');
 
 const canvas = canvasBody.getContext('2d');
 const w = canvasBody.width = window.innerWidth;
@@ -48,6 +50,8 @@ const app = {
   nameInput,
   saveButton,
   findButton,
+  filters,
+  filterButton,
   canvas,
   w,
   h,
@@ -63,6 +67,9 @@ const app = {
   save$: null,
   find$: null,
   clear$: null,
+  filter$: null,
+  filterApply$: null,
+  filterChange$: null,
   pausable$: null,
   pauser$$: null,
 
@@ -73,6 +80,7 @@ const app = {
   color: null,
   pic: [],
   point: [],
+  filter: null,
 
 //methods
 
@@ -86,6 +94,8 @@ const app = {
     this.save$ = savePic.call(this);
     this.find$ = findPic.call(this);
     this.clear$ = clearCanvas.call(this);
+    this.filterApply$ = filterApply.call(this);
+    this.filterChange$ = filterChange.call(this).startWith('invert');
     this.pauser$$ = new Subject();
     this.pausable$ = this.pauser$$
       .switchMap(paused => paused ? Observable.never() : this.mousemove$);
@@ -115,10 +125,14 @@ const app = {
     this.save$.subscribe(saveSub.bind(this));
 
     this.find$.subscribe(findSub.bind(this));
+
+    this.filterApply$.subscribe(filterApplySub.bind(this));
+    this.filterChange$.subscribe(filterChangeSub.bind(this));
   },
   start() {
     setOptionsToSelect.call(this);
-    this.createSubscriptions()
+    setFilters.call(this);
+    this.createSubscriptions();
   }
 
 }

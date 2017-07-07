@@ -1,4 +1,4 @@
-import { save, get, drawPic } from './utils';
+import { save, get, drawPic, greyScaleFilter, invert } from './utils';
 
 export function widthSub(width) {
   this.width = width;
@@ -66,4 +66,22 @@ export function findSub(_) {
     pic && drawPic(pic, this.canvas);
     this.pic = pic;
   }
+}
+
+export function filterApplySub(_) {
+  if (this.pic.length) {
+    const raw = this.canvas.getImageData(0, 0, this.canvasBody.width, this.canvasBody.height);
+    let filtered;
+    if (this.filter === 'invert') {
+      filtered = invert(raw);
+    }
+    if (this.filter === 'greyscale') {
+      filtered = greyScaleFilter(raw);
+    }
+    this.canvas.putImageData(filtered, 0, 0);
+  }
+}
+
+export function filterChangeSub(filter) {
+  this.filter = filter;
 }

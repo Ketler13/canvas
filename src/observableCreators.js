@@ -15,6 +15,12 @@ export function colorChange() {
     .map(ev => ev.target.value);
 }
 
+export function filterChange() {
+  return Observable
+    .fromEvent(this.filters, 'change')
+    .map(ev => ev.target.value);
+}
+
 export function mouseDown() {
   return Observable
     .fromEvent(document.body, 'mousedown')
@@ -66,4 +72,8 @@ export function  savePic() {
 
 export function findPic() {
   return Observable.fromEvent(this.findButton, 'click');
+}
+
+export function filterApply() {
+  return Observable.fromEvent(this.filterButton, 'click');
 }
