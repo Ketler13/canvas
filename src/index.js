@@ -1,7 +1,14 @@
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
+import { Subject } from 'rxjs/Subject';
+
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/operator/skipUntil';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/scan';
+import 'rxjs/add/observable/never';
 
 import {
   widthChange, colorChange, mouseDown, mouseMove, mouseUp, clearCanvas,
@@ -43,30 +50,13 @@ const clear$ = clearCanvas(clearButton);
 let pic = [];
 let line = defaultLine;
 
-const draw = () => {
-  mousedown$
-    .do(_ => {
-      line.color = opts.color;
-      line.width = opts.width;
-    })
-    .switchMap(_ => mousemove$)
-    .takeUntil(mouseup$)
-    .subscribe(pos => {
-      const { x, y } = pos;
-      line.points.push({x, y});
-      canvas.fillStyle = opts.color;
-      canvas.beginPath();
-      canvas.arc(x, y, opts.width, 0, Math.PI * 2);
-      canvas.fill();
-    });
-}
-
-draw();
-mouseup$.subscribe(_ => {
-  pic.push(line);
-  line = defaultLine;
-  draw()}
-);
+const pauser$$ = new Subject();
+const pausable$ = pauser$$.switchMap(paused => paused ? Observable.never() : mousemove$);
+mousedown$.subscribe(_ => pauser$$.next(false));
+mouseup$.subscribe(_ => pauser$$.next(true));
+pausable$.subscribe(pos => {
+  console.log(opts);
+});
 
 width$.subscribe(width => {
   opts.width = width;
@@ -87,6 +77,7 @@ name$.subscribe(value => name = value);
 
 save$.subscribe(ev => {
   if (name && pic.length) {
+    console.log('--saving', pic);
     save(name, pic);
   }
 });
@@ -94,6 +85,7 @@ save$.subscribe(ev => {
 find$.subscribe(_ => {
   if (name) {
     const pic = get(name);
-    drawPic(pic, canvas);
+    console.log(pic);
+    pic && drawPic(pic, canvas);
   }
-})
+});

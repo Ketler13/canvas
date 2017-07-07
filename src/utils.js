@@ -15,7 +15,8 @@ export const save = (name, pic) => {
 }
 
 export const get = (name) => {
-  return JSON.parse(localStorage.getItem(name));
+  const item = localStorage.getItem(name);
+  return JSON.parse(item);
 }
 
 export const drawPic = (lines, canvas) => {
