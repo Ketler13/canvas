@@ -48,14 +48,31 @@ let name = null;
 const clear$ = clearCanvas(clearButton);
 
 let pic = [];
-let line = defaultLine;
+let points = [];
+let color = opts.color;
 
 const pauser$$ = new Subject();
 const pausable$ = pauser$$.switchMap(paused => paused ? Observable.never() : mousemove$);
-mousedown$.subscribe(_ => pauser$$.next(false));
-mouseup$.subscribe(_ => pauser$$.next(true));
-pausable$.subscribe(pos => {
-  console.log(opts);
+mousedown$
+  .do(_ => {
+    points = [];
+    const line = {
+      color: opts.color,
+      width: opts.width,
+      points: []
+    }
+    pic.push(line);
+  })
+  .subscribe(_ => pauser$$.next(false));
+
+mouseup$
+  .do(_ => {
+    pic[pic.length - 1].points = points;
+  })
+  .subscribe(_ => pauser$$.next(true));
+
+pausable$.subscribe(point => {
+  points.push(point);
 });
 
 width$.subscribe(width => {
