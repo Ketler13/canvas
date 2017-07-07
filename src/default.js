@@ -19,3 +19,8 @@ export const colors = [
   'rgb(158,158,158)',
   'rgb(96,125,139)'
 ]
+
+export const opts = {
+  width: 10,
+  color: 'rgb(244,67,54)'
+}

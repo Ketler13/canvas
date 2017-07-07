@@ -1,45 +1,45 @@
-import { pointerMove, pointerLeave, widthChange, colorChange } from './observables';
-import { setOptionsToSelect } from './utils';
+// import 'rxjs/add/operator/startWith';
+// import 'rxjs/add/operator/filter';
+// import 'rxjs/add/operator/switchMap';
+//
+//
+// import {
+//   widthChange, colorChange, mouseDown, mouseMove,
+//   mouseUp
+// } from './observables';
+//
+// import { opts } from './default';
+//
+// import { setOptionsToSelect } from './utils';
+//
+// const controls = document.querySelector('.controls');
+//
+// const range = document.querySelector('.range');
+// const colors = document.querySelector('.colors');
+//
+// const wrapper = document.querySelector('.wrapper');
+// const canvasBody = document.getElementById('canvas');
+//
+// const canvas = canvasBody.getContext('2d');
+// const clearButton = document.querySelector('.button.clear');
+//
+// const width$ = widthChange(range).startWith(10);
+// const color$ = colorChange(colors).startWith('rgb(244,67,54)');
+//
+// const mouseDown$ = mouseDown();
+// const mouseMove$ = mouseMove();
+// const mouseUp$ = mouseUp();
+//
+// setOptionsToSelect(colors);
+//
+// width$.subscribe(width => {
+//   opts.width = width;
+// });
+//
+// color$.subscribe(color => {
+//   opts.color = color;
+// });
 
-const pointer = document.querySelector('.pointer');
-const controls = document.querySelector('.controls');
-
-const range = document.querySelector('.range');
-const colors = document.querySelector('.colors');
-
-const wrapper = document.querySelector('.wrapper');
-const canvasBody = document.getElementById('canvas');
-
-
-const canvas = canvasBody.getContext('2d');
-const clearButton = document.querySelector('.button.clear');
-
-setOptionsToSelect(colors);
-
-const w = canvasBody.width = window.innerWidth;
-const h = canvasBody.height = window.innerHeight;
-
-const pointerMove$ = pointerMove(canvasBody);
-const pointerLeave$ = pointerLeave(controls);
-
-const width$ = widthChange(range);
-const color$ = colorChange(colors);
-
-pointerMove$.subscribe(value => {
-  pointer.style.left = value.x + 'px';
-  pointer.style.top = value.y + 'px';
-});
-
-pointerLeave$.subscribe(ev => {
-  pointer.style.left = '-50px';
-  pointer.style.top = '-50px';
-});
-
-width$.subscribe(width => {
-  pointer.style.width = width + 'px';
-  pointer.style.height = width + 'px';
-});
-
-color$.subscribe(color => {
-  pointer.style.backgroundColor = color;
-});
+document.body.addEventListener('mousemove', () => {
+  console.log(1);
+})

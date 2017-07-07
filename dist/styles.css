@@ -61,7 +61,7 @@ canvas {
 
 .controls {
 	display: flex;
-	flex-flow: row nowrap;
+	flex-flow: row wrap;
 	justify-content: flex-start;;
 	align-items: center;
 	background-color: #3F51B5;
@@ -83,6 +83,10 @@ canvas {
 
 .colors.control-item option:checked {
 	background-color: white;
+}
+
+.controls label {
+	color: #E8EAF6;
 }
 
 .button {
