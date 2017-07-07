@@ -14,8 +14,13 @@ import {
   widthChange, colorChange, mouseDown, mouseMove, mouseUp, clearCanvas,
   nameChange, savePic, findPic
 } from './observableCreators';
-import { setOptionsToSelect, drawPic, save, get, _setOptionsToSelect } from './utils';
-import { opts, defaultLine } from './default';
+
+import {
+  widthSub, colorSub, mdSub, mdDo, muSub, muDo, pausableSub, clearSub, nameSub,
+  saveSub, findSub
+} from './subscriptions';
+
+import { _setOptionsToSelect } from './utils';
 
 const controls = document.querySelector('.controls');
 const range = document.querySelector('.range');
@@ -44,6 +49,8 @@ const app = {
   saveButton,
   findButton,
   canvas,
+  w,
+  h,
 
 // event streams
 
@@ -70,81 +77,44 @@ const app = {
 //methods
 
   createObservables() {
-    this.width$ = _widthChange.call(this).startWith(15);
-    this.color$ = _colorChange.call(this).startWith('rgb(244,67,54)');
-    this.mousedown$ = _mouseDown.call(this);
-    this.mousemove$ = _mouseMove.call(this);
-    this.mouseup$ = _mouseUp.call(this);
-    this.name$ = _nameChange.call(this);
-    this.save$ = _savePic.call(this);
-    this.find$ = _findPic.call(this);
-    this.clear$ = _clearCanvas.call(this);
+    this.width$ = widthChange.call(this).startWith(15);
+    this.color$ = colorChange.call(this).startWith('rgb(244,67,54)');
+    this.mousedown$ = mouseDown.call(this);
+    this.mousemove$ = mouseMove.call(this);
+    this.mouseup$ = mouseUp.call(this);
+    this.name$ = nameChange.call(this);
+    this.save$ = savePic.call(this);
+    this.find$ = findPic.call(this);
+    this.clear$ = clearCanvas.call(this);
     this.pauser$$ = new Subject();
     this.pausable$ = this.pauser$$
       .switchMap(paused => paused ? Observable.never() : this.mousemove$);
   },
+
   createSubscriptions() {
     this.createObservables();
 
-    this.width$.subscribe(width => {
-      this.width = width;
-    });
+    this.width$.subscribe(widthSub.bind(this));
 
-    this.color$.subscribe(color => {
-      this.color = color;
-    });
+    this.color$.subscribe(colorSub.bind(this));
 
     this.mousedown$
-      .do(_ => {
-        this.points = [];
-        const line = {
-          color: this.color,
-          width: this.width,
-          points: []
-        }
-        this.pic.push(line);
-      })
-      .subscribe(_ => this.pauser$$.next(false));
+      .do(mdDo.bind(this))
+      .subscribe(mdSub.bind(this));
 
     this.mouseup$
-      .do(_ => {
-        this.pic[this.pic.length - 1].points = this.points;
-      })
-      .subscribe(_ => this.pauser$$.next(true));
+      .do(muDo.bind(this))
+      .subscribe(muSub.bind(this));
 
-    this.pausable$.subscribe(point => {
-      this.points.push(point);
-      this.canvas.fillStyle = this.color;
-      this.canvas.beginPath();
-      this.canvas.arc(point.x, point.y, this.width, 0, Math.PI * 2);
-      this.canvas.fill();
-    });
+    this.pausable$.subscribe(pausableSub.bind(this));
 
-    this.clear$.subscribe(x => {
-      this.canvas.clearRect(0, 0, w, h);
-      this.pic = [];
-      this.points = [];
-    })
+    this.clear$.subscribe(clearSub.bind(this));
 
-    this.name$.subscribe(value => this.name = value);
+    this.name$.subscribe(nameSub.bind(this));
 
-    this.save$.subscribe(ev => {
-      if (this.name && this.pic.length) {
-        save(name, pic);
-      }
-      this.pic = [];
-      this.points = [];
-    });
+    this.save$.subscribe(saveSub.bind(this));
 
-    this.find$.subscribe(_ => {
-      this.canvas.clearRect(0, 0, w, h);
-      this.pic = [];
-      this.points = [];
-      if (this.name) {
-        const pic = get(this.name);
-        pic && drawPic(pic, this.canvas);
-      }
-    });
+    this.find$.subscribe(findSub.bind(this));
   },
   start() {
     _setOptionsToSelect.call(this);
