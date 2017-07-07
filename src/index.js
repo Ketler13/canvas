@@ -17,7 +17,7 @@ import {
 
 import {
   widthSub, colorSub, mdSub, mdDo, muSub, muDo, pausableSub, clearSub, nameSub,
-  saveSub, findSub, filterApplySub, filterChangeSub, undoSub, redoSub
+  saveSub, findSub, filterApplySub, filterChangeSub, undoSub, redoSub, undoRedoSub
 } from './subscriptions';
 
 import { setOptionsToSelect, setFilters } from './utils';
@@ -78,6 +78,7 @@ const app = {
   filterChange$: null,
   pausable$: null,
   pauser$$: null,
+  undoRedoSource$$: null,
 
 // variables
 
@@ -106,6 +107,7 @@ const app = {
     this.filterApply$ = filterApply.call(this);
     this.filterChange$ = filterChange.call(this).startWith('invert');
     this.pauser$$ = new Subject();
+    this.undoRedoSource$$ = new Subject();
     this.pausable$ = this.pauser$$
       .switchMap(paused => paused ? Observable.never() : this.mousemove$);
   },
@@ -141,6 +143,7 @@ const app = {
 
     this.filterApply$.subscribe(filterApplySub.bind(this));
     this.filterChange$.subscribe(filterChangeSub.bind(this));
+    this.undoRedoSource$$.subscribe(undoRedoSub.bind(this));
   },
   start() {
     setOptionsToSelect.call(this);

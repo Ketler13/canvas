@@ -53,6 +53,10 @@ ul, li {
 	list-style-type: none;
 }
 
+button:disabled {
+	background-color: grey;
+}
+
 #canvas {
   position: absolute;
   top: 0;

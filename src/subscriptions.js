@@ -93,6 +93,8 @@ export function undoSub(_) {
   if (this.pic.length) {
     this.canvas.clearRect(0, 0, this.w, this.h);
     const lastLine = this.pic.pop();
+    !this.pic.length && this.undoRedoSource$$.next(['undo', true]);
+    this.pic.length && this.undoRedoSource$$.next(['redo', false]);
     this.buffer.push(lastLine);
     drawPic(this.pic, this.canvas);
   }
@@ -102,7 +104,17 @@ export function redoSub(_) {
   if (this.buffer.length) {
     this.canvas.clearRect(0, 0, this.w, this.h);
     const addictiveLine = this.buffer.pop();
+    !this.buffer.length && this.undoRedoSource$$.next(['redo', true]);
+    this.buffer.length && this.undoRedoSource$$.next(['undo', false]);
     this.pic.push(addictiveLine);
     drawPic(this.pic, this.canvas);
+  }
+}
+
+export function undoRedoSub(payload) {
+  if (payload[0] === 'undo') {
+    this.undoButton.disabled = payload[1];
+  } else {
+    this.redoButton.disabled = payload[1];
   }
 }
