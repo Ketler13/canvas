@@ -20,7 +20,7 @@ import {
   saveSub, findSub
 } from './subscriptions';
 
-import { _setOptionsToSelect } from './utils';
+import { setOptionsToSelect } from './utils';
 
 const controls = document.querySelector('.controls');
 const range = document.querySelector('.range');
@@ -117,7 +117,7 @@ const app = {
     this.find$.subscribe(findSub.bind(this));
   },
   start() {
-    _setOptionsToSelect.call(this);
+    setOptionsToSelect.call(this);
     this.createSubscriptions()
   }
 

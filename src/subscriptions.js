@@ -1,9 +1,12 @@
+import { save, get, drawPic } from './utils';
+
 export function widthSub(width) {
   this.width = width;
 }
 
 export function colorSub(color) {
   this.color = color;
+  this.colors.style.backgroundColor = color;
 }
 
 export function mdSub(_) {
@@ -48,14 +51,14 @@ export function nameSub(name) {
 
 export function saveSub(_) {
   if (this.name && this.pic.length) {
-    save(name, pic);
+    save(this.name, this.pic);
   }
   this.pic = [];
   this.points = [];
 }
 
 export function findSub(_) {
-  this.canvas.clearRect(0, 0, w, h);
+  this.canvas.clearRect(0, 0, this.w, this.h);
   this.pic = [];
   this.points = [];
   if (this.name) {
