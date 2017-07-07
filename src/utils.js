@@ -30,7 +30,6 @@ export const get = (name) => {
 }
 
 export const drawPic = (lines, canvas) => {
-  canvas.clearRect(0, 0, canvas.width, canvas.heigth);
   lines.forEach(line => {
     const { color, width, points } = line;
     points.forEach(point => {

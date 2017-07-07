@@ -12,12 +12,12 @@ import 'rxjs/add/observable/never';
 
 import {
   widthChange, colorChange, mouseDown, mouseMove, mouseUp, clearCanvas,
-  nameChange, savePic, findPic, filterApply, filterChange
+  nameChange, savePic, findPic, filterApply, filterChange, undo, redo
 } from './observableCreators';
 
 import {
   widthSub, colorSub, mdSub, mdDo, muSub, muDo, pausableSub, clearSub, nameSub,
-  saveSub, findSub, filterApplySub, filterChangeSub
+  saveSub, findSub, filterApplySub, filterChangeSub, undoSub, redoSub
 } from './subscriptions';
 
 import { setOptionsToSelect, setFilters } from './utils';
@@ -28,6 +28,8 @@ const colors = document.querySelector('.colors');
 const wrapper = document.querySelector('.wrapper');
 const canvasBody = document.getElementById('canvas');
 const clearButton = document.querySelector('.button.clear');
+const undoButton = document.querySelector('.button.undo');
+const redoButton = document.querySelector('.button.redo');
 const nameInput = document.querySelector('.name');
 const saveButton = document.querySelector('.button.save');
 const findButton = document.querySelector('.button.find');
@@ -47,6 +49,8 @@ const app = {
   wrapper,
   canvasBody,
   clearButton,
+  undoButton,
+  redoButton,
   nameInput,
   saveButton,
   findButton,
@@ -67,6 +71,8 @@ const app = {
   save$: null,
   find$: null,
   clear$: null,
+  undo$: null,
+  redo$: null,
   filter$: null,
   filterApply$: null,
   filterChange$: null,
@@ -80,6 +86,7 @@ const app = {
   color: null,
   pic: [],
   point: [],
+  buffer: [],
   filter: null,
 
 //methods
@@ -94,6 +101,8 @@ const app = {
     this.save$ = savePic.call(this);
     this.find$ = findPic.call(this);
     this.clear$ = clearCanvas.call(this);
+    this.undo$ = undo.call(this);
+    this.redo$ = redo.call(this);
     this.filterApply$ = filterApply.call(this);
     this.filterChange$ = filterChange.call(this).startWith('invert');
     this.pauser$$ = new Subject();
@@ -119,6 +128,10 @@ const app = {
     this.pausable$.subscribe(pausableSub.bind(this));
 
     this.clear$.subscribe(clearSub.bind(this));
+
+    this.undo$.subscribe(undoSub.bind(this));
+
+    this.redo$.subscribe(redoSub.bind(this));
 
     this.name$.subscribe(nameSub.bind(this));
 

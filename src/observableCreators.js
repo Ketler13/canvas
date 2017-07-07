@@ -61,6 +61,14 @@ export function clearCanvas() {
   return Observable.fromEvent(this.clearButton, 'click');
 }
 
+export function undo() {
+  return Observable.fromEvent(this.undoButton, 'click');
+}
+
+export function redo() {
+  return Observable.fromEvent(this.redoButton, 'click');
+}
+
 export function nameChange() {
   return Observable.fromEvent(this.nameInput, 'input')
     .map(ev => ev.target.value);

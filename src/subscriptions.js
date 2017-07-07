@@ -43,6 +43,7 @@ export function clearSub(_) {
   this.canvas.clearRect(0, 0, this.w, this.h);
   this.pic = [];
   this.points = [];
+  this.buffer = [];
 }
 
 export function nameSub(name) {
@@ -55,12 +56,14 @@ export function saveSub(_) {
   }
   this.pic = [];
   this.points = [];
+  this.buffer = [];
 }
 
 export function findSub(_) {
   this.canvas.clearRect(0, 0, this.w, this.h);
   this.pic = [];
   this.points = [];
+  this.buffer = [];
   if (this.name) {
     const pic = get(this.name);
     pic && drawPic(pic, this.canvas);
@@ -84,4 +87,22 @@ export function filterApplySub(_) {
 
 export function filterChangeSub(filter) {
   this.filter = filter;
+}
+
+export function undoSub(_) {
+  if (this.pic.length) {
+    this.canvas.clearRect(0, 0, this.w, this.h);
+    const lastLine = this.pic.pop();
+    this.buffer.push(lastLine);
+    drawPic(this.pic, this.canvas);
+  }
+}
+
+export function redoSub(_) {
+  if (this.buffer.length) {
+    this.canvas.clearRect(0, 0, this.w, this.h);
+    const addictiveLine = this.buffer.pop();
+    this.pic.push(addictiveLine);
+    drawPic(this.pic, this.canvas);
+  }
 }
