@@ -21,6 +21,12 @@ export const colors = [
 ]
 
 export const opts = {
-  width: 10,
-  color: 'rgb(244,67,54)'
+  width: 15,
+  color: 'rgb(244,67,54)',
+}
+
+export const defaultLine = {
+  color: null,
+  width: null,
+  points: []
 }
