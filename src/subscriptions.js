@@ -64,5 +64,6 @@ export function findSub(_) {
   if (this.name) {
     const pic = get(this.name);
     pic && drawPic(pic, this.canvas);
+    this.pic = pic;
   }
 }
