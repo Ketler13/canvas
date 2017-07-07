@@ -10,6 +10,16 @@ export const setOptionsToSelect = select => {
   });
 }
 
+export function _setOptionsToSelect() {
+  colors.forEach((color, i) => {
+    const opt = document.createElement('option');
+    opt.value = color;
+    opt.style.backgroundColor = color;
+    if (i === 0) { this.colors.style.backgroundColor = color }
+    this.colors.appendChild(opt);
+  });
+}
+
 export const save = (name, pic) => {
   localStorage.setItem(name, JSON.stringify(pic));
 }
