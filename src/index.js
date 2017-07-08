@@ -161,4 +161,9 @@ const app = {
 
 }
 
+window.addEventListener('resize', ev => {
+  canvasBody.width = window.innerWidth;
+  canvasBody.height = window.innerHeight;
+});
+
 app.start();
