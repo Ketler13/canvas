@@ -108,7 +108,11 @@ ul, li {
 }
 
 .button:disabled {
-	background-color: grey;
+	color: grey;
+}
+
+.button[disabled]:hover {
+	background-color: transparent;
 }
 
 .button.save {
@@ -117,6 +121,10 @@ ul, li {
 
 .button.clear {
 	color: rgb(226, 106, 106);
+}
+
+select.control-item {
+	border: none;
 }
 
 .pointer {
