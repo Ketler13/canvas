@@ -11,13 +11,14 @@ import 'rxjs/add/operator/scan';
 import 'rxjs/add/observable/never';
 
 import {
-  widthChange, colorChange, mouseDown, mouseMove, mouseUp, clearCanvas,
-  nameChange, savePic, findPic, filterApply, filterChange, undo, redo
+  widthChange, colorChange, mouseDown, mouseMove, mouseUp, clearCanvas, nameChange,
+  savePic, findPic, filterApply, filterChange, filterReset, undo, redo
 } from './observableCreators';
 
 import {
   widthSub, colorSub, mdSub, mdDo, muSub, muDo, pausableSub, clearSub, nameSub,
-  saveSub, findSub, filterApplySub, filterChangeSub, undoSub, redoSub, undoRedoSub
+  saveSub, findSub, filterApplySub, filterChangeSub, resetFilterSub, undoSub,
+  redoSub, undoRedoSub
 } from './subscriptions';
 
 import { setOptionsToSelect, setFilters } from './utils';
@@ -36,6 +37,7 @@ const saveButton = document.querySelector('.button.save');
 const findButton = document.querySelector('.button.find');
 const filters = document.querySelector('.filters');
 const filterButton = document.querySelector('.button.filter');
+const resetButton = document.querySelector('.button.reset');
 
 const canvas = canvasBody.getContext('2d');
 const w = canvasBody.width = window.innerWidth;
@@ -58,6 +60,7 @@ const app = {
   findButton,
   filters,
   filterButton,
+  resetButton,
   canvas,
   w,
   h,
@@ -78,6 +81,7 @@ const app = {
   filter$: null,
   filterApply$: null,
   filterChange$: null,
+  filterReset$: null,
   pausable$: null,
   pauser$$: null,
   undoRedoSource$$: null,
@@ -107,6 +111,7 @@ const app = {
     this.undo$ = undo.call(this);
     this.redo$ = redo.call(this);
     this.filterApply$ = filterApply.call(this);
+    this.filterReset$ = filterReset.call(this);
     this.filterChange$ = filterChange.call(this).startWith('invert');
     this.pauser$$ = new Subject();
     this.undoRedoSource$$ = new Subject();
@@ -144,6 +149,7 @@ const app = {
     this.find$.subscribe(findSub.bind(this));
 
     this.filterApply$.subscribe(filterApplySub.bind(this));
+    this.filterReset$.subscribe(resetFilterSub.bind(this));
     this.filterChange$.subscribe(filterChangeSub.bind(this));
     this.undoRedoSource$$.subscribe(undoRedoSub.bind(this));
   },

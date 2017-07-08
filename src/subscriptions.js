@@ -28,6 +28,7 @@ export function mdDo(_) {
 
 export function muSub(_) {
   this.pauser$$.next(true);
+  this.undoRedoSource$$.next(['undo', false]);
 }
 
 export function muDo(_) {
@@ -47,6 +48,8 @@ export function clearSub(_) {
   this.pic = [];
   this.points = [];
   this.buffer = [];
+  this.undoRedoSource$$.next(['redo', true]);
+  this.undoRedoSource$$.next(['undo', true]);
 }
 
 export function nameSub(name) {
@@ -92,13 +95,20 @@ export function filterChangeSub(filter) {
   this.filter = filter;
 }
 
+export function resetFilterSub(_) {
+  if (this.pic.length) {
+    this.canvas.clearRect(0, 0, this.w, this.h);
+    drawPic(this.pic, this.canvas);
+  }
+}
+
 export function undoSub(_) {
   if (this.pic.length) {
     this.canvas.clearRect(0, 0, this.w, this.h);
     const lastLine = this.pic.pop();
     !this.pic.length && this.undoRedoSource$$.next(['undo', true]);
-    this.pic.length && this.undoRedoSource$$.next(['redo', false]);
     this.buffer.push(lastLine);
+    this.buffer.length && this.undoRedoSource$$.next(['redo', false]);
     drawPic(this.pic, this.canvas);
   }
 }
@@ -108,8 +118,8 @@ export function redoSub(_) {
     this.canvas.clearRect(0, 0, this.w, this.h);
     const addictiveLine = this.buffer.pop();
     !this.buffer.length && this.undoRedoSource$$.next(['redo', true]);
-    this.buffer.length && this.undoRedoSource$$.next(['undo', false]);
     this.pic.push(addictiveLine);
+    this.pic.length && this.undoRedoSource$$.next(['undo', false]);
     drawPic(this.pic, this.canvas);
   }
 }

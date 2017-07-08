@@ -53,10 +53,6 @@ ul, li {
 	list-style-type: none;
 }
 
-button:disabled {
-	background-color: grey;
-}
-
 #canvas {
   position: absolute;
   top: 0;
@@ -109,6 +105,18 @@ button:disabled {
 
 .button:hover {
 	background-color: #283593;
+}
+
+.button:disabled {
+	background-color: grey;
+}
+
+.button.save {
+	color: rgb(46, 204, 113);
+}
+
+.button.clear {
+	color: rgb(226, 106, 106);
 }
 
 .pointer {

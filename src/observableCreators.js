@@ -85,3 +85,7 @@ export function findPic() {
 export function filterApply() {
   return Observable.fromEvent(this.filterButton, 'click');
 }
+
+export function filterReset() {
+  return Observable.fromEvent(this.resetButton, 'click');
+}
