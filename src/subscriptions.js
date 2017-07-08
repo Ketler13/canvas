@@ -2,8 +2,8 @@ import { save, get, drawPic, greyScaleFilter, invert } from './utils';
 
 export function widthSub(width) {
   this.width = width;
-  this.example.style.width = width + 'px';
-  this.example.style.height = width + 'px';
+  this.example.style.width = width * 2 + 'px';
+  this.example.style.height = width * 2 + 'px';
 }
 
 export function colorSub(color) {
