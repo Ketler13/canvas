@@ -25,6 +25,7 @@ import { setOptionsToSelect, setFilters } from './utils';
 const controls = document.querySelector('.controls');
 const range = document.querySelector('.range');
 const colors = document.querySelector('.colors');
+const example = document.querySelector('.example');
 const wrapper = document.querySelector('.wrapper');
 const canvasBody = document.getElementById('canvas');
 const clearButton = document.querySelector('.button.clear');
@@ -46,6 +47,7 @@ const app = {
   controls,
   range,
   colors,
+  example,
   wrapper,
   canvasBody,
   clearButton,

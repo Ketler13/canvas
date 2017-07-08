@@ -2,11 +2,14 @@ import { save, get, drawPic, greyScaleFilter, invert } from './utils';
 
 export function widthSub(width) {
   this.width = width;
+  this.example.style.width = width + 'px';
+  this.example.style.height = width + 'px';
 }
 
 export function colorSub(color) {
   this.color = color;
   this.colors.style.backgroundColor = color;
+  this.example.style.backgroundColor = color;
 }
 
 export function mdSub(_) {

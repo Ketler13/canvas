@@ -93,6 +93,10 @@ button:disabled {
 	color: #E8EAF6;
 }
 
+.controls .example {
+	border-radius: 50%;
+}
+
 .button {
 	height: 32px;
 	padding: 0 10px;
